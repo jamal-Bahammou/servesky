@@ -31,7 +31,7 @@ app.use(express.static(`${__dirname}/public`));
 
 // Allow control access origin
 app.use(cors({
-	origin: 'http://127.0.0.1:3000',
+	origin: 'https://toursky.vercel.app/',
 	credentials: true,
 }))
 

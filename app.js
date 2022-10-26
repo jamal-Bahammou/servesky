@@ -29,11 +29,11 @@ app.set('views', path.join(__dirname, 'views'))
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
 
-// // Allow control access origin
-// app.use(cors({
-// 	origin: 'https://toursky.vercel.app/',
-// 	credentials: true,
-// }))
+// Allow control access origin
+app.use(cors({
+	origin: 'https://toursky.vercel.app',
+	credentials: true,
+}))
 
 // Set security HTTP headers
 app.use(helmet());

@@ -19,7 +19,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 
 const app = express();
 
-// app.use(express.static(path.resolve('./public')));
+app.use(express.static(path.resolve('./public')));
 
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
@@ -30,10 +30,9 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(`${__dirname}/public`));
 
 // Allow control access origin
-app.use(cors({
-	origin: 'https://toursky.vercel.app',
-	credentials: true,
-}))
+// origin: 'https://toursky.vercel.app'
+app.use(cors())
+app.options('*',cors())
 
 // Set security HTTP headers
 app.use(helmet());

@@ -31,10 +31,10 @@ app.use(express.static(`${__dirname}/public`));
 
 // Allow control access origin
 // origin: 'https://toursky.vercel.app'
-// app.use(cors())
-// app.options('*',cors())
+app.use(cors())
+app.options('*',cors())
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://toursky.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', true);

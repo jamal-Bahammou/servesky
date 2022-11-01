@@ -35,9 +35,9 @@ app.options('*',cors({ origin: 'https://toursky.vercel.app' }))
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'https://toursky.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
 

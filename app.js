@@ -30,7 +30,6 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(`${__dirname}/public`));
 
 // Allow control access origin
-// origin: 'https://toursky.vercel.app'
 app.use(cors())
 app.options('*',cors())
 app.use(function(req, res, next) {

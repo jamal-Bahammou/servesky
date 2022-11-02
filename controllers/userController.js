@@ -4,6 +4,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
+const { cloudinary } = require('../utils/cloudinary');
 
 // const multerStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -35,13 +36,30 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   if (!req.file) return next();
 
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  if (process.env.NODE_ENV === 'development') {
+    await sharp(req.file.buffer)
+      .resize(128,128)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/users/${req.file.filename}`);
 
-  await sharp(req.file.buffer)
-    .resize(128,128)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`
+  }
+
+
+  if (process.env.NODE_ENV === 'production') {
+    const imageConf = {
+      upload_preset: 'user',
+      width: 128,
+      height: 128,
+      crop: "fill",
+      format: "jpeg",
+    }
+  
+    await cloudinary
+      .uploader
+      .upload(req.body.data, imageConf, (error, result) => req.file.filename = result.secure_url)
+  }
 
   next();
 });

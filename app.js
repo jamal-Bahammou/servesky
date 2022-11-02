@@ -30,12 +30,12 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(`${__dirname}/public`));
 
 // Allow control access origin
-app.use(cors({ origin: 'https://toursky.vercel.app', credentials: true }))
-app.options('*',cors({ origin: 'https://toursky.vercel.app', credentials: true }))
-// app.options('*',cors({ origin: 'https://toursky.vercel.app' }))
+const corsConf = { origin: process.env.FRONT_HOST, credentials: true }
+app.use(cors(corsConf))
+app.options('*',cors(corsConf))
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://toursky.vercel.app');
+  res.header('Access-Control-Allow-Origin', process.env.FRONT_HOST);
   res.header('Access-Control-Allow-Methods', 'GET, POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', true);
@@ -85,7 +85,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log('💯 : ', req.cookies);
+  // console.log('💯 : ', req.cookies);
   next();
 });
 

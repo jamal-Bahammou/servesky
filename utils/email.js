@@ -33,8 +33,7 @@ module.exports = class Email {
     }
 
     // 3) Create a transport and send email
-    const res = await this.newTransport().send(mailOptions)
-    console.log(res)
+    await this.newTransport().send(mailOptions)
   }
 
   async sendWelcome() {

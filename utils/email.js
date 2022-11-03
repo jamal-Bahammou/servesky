@@ -4,10 +4,10 @@ const htmlToText = require('html-to-text')
 
 module.exports = class Email {
   constructor(user, url) {
-    this.to = user.email
-    this.firstName = user.name.split(' ')[0]
-    this.url = url
-    this.from = process.env.SENDGRID_API_FROM
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
+    this.url = url;
+    this.from = `Jamal Bahammou <${process.env.SENDGRID_API_FROM}>`;
   }
 
   newTransport() {

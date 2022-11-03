@@ -1,38 +1,17 @@
-const nodemailer = require('nodemailer');
-const pug = require('pug');
-const htmlToText = require('html-to-text');
+const sgMail = require('@sendgrid/mail')
+const pug = require('pug')
+const htmlToText = require('html-to-text')
 
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Jonas Schmedtmann <${process.env.EMAIL_FROM}>`;
+    this.from = `Jamal Bahammou <${process.env.SENDGRID_FROM}>`;
   }
 
   newTransport() {
-
-    if (process.env.NODE_ENV === 'production') {
-      // Sendgrid
-      return nodemailer.createTransport({
-        service: 'SendGrid',
-        auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD
-        }
-      });
-    } else {
-      return nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD
-        }
-      });
-    }
-
-
+    return sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   }
 
   // Send the actual email
@@ -51,20 +30,18 @@ module.exports = class Email {
       subject,
       html,
       text: htmlToText.fromString(html)
-    };
+    }
 
     // 3) Create a transport and send email
-    await this.newTransport().sendMail(mailOptions);
+    const res = await this.newTransport().send(mailOptions)
+    console.log(res)
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to the Natours Family!');
+    await this.send('welcome', 'Welcome to the Toursky Family!')
   }
 
   async sendPasswordReset() {
-    await this.send(
-      'passwordReset',
-      'Your password reset token (valid for only 10 minutes)'
-    );
+    await this.send('passwordReset', 'Your password reset token (valid for only 10 minutes)')
   }
 };

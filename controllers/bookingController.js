@@ -29,7 +29,7 @@ exports.getCheckoutSession = catchAsync(async(req,res,next) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.FRONT_HOST}/?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.FRONT_HOST}/?session_id={CHECKOUT_SESSION_ID}&client_id=${req.user._id}`,
       cancel_url: `${process.env.FRONT_HOST}/tour/${tour.slug}`,
     });
 

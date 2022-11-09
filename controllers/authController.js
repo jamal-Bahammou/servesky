@@ -18,10 +18,8 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true,
     sameSite: 'None',
-    // domain: ".toursky.vercel.app",
+    secure: true,
   };
-
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
 
@@ -73,7 +71,7 @@ exports.logout = (req,res) => {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
     sameSite: 'None',
-    // domain: ".toursky.vercel.app",
+    secure: true,
   };
   res.cookie('jwt', '', cookieOptions)
   res.status(200).json({ status: 'success' })
